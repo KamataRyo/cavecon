@@ -51,4 +51,32 @@ describe('unit test of search.js.', function(){
 		result1.reachable.should.equal(true);
 		result2.reachable.should.equal(false);
 	});
+
+	q = 'wfs searching history should be remain.';
+	it(q, function() {
+		var bfs = new BFS({graph : gr, initial : 'C', terminal : 'D'});
+		var result = bfs.search();
+		//result.history['D'].toString().should.equal(['C','E','G','H','I','D'].toString());
+		//console.log(result.history2);
+	});
+
+
+
+
+
+
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
