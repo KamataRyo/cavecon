@@ -1,18 +1,20 @@
 var should = require('should');
 var Graph = require('../js/graph.js').Graph;
-var WFS = require('../js/search.js').WFS;
+var BFS = require('../js/search.js').BFS;
 var q = '';
 
-// A----->D<---
-// |  |       |
-// v  v       |
-// B->C-->E   I
-//    |   |   ^
-//    v   v   |
-//    F<--G-->H
+// |-------|
+// |       v
+// A<---   D<---
+// |   |       |
+// v   |       |
+// B-->C-->E   I
+//     |   |   ^
+//     v   v   |
+//     F<--G-->H
 
 var structure = {
-	"nodes": {
+	"vertices": {
 		"A": {},
 		"B": {},
 		"C": {},
@@ -26,7 +28,7 @@ var structure = {
 	"edges": {
 		"A->B" : {"from": "A", "to": "B"},
 		"B->C" : {"from": "A", "to": "C"},
-		"A->C" : {"from": "A", "to": "C"},
+		"C->A" : {"from": "C", "to": "A"},
 		"A->D" : {"from": "A", "to": "D"},
 		"C->E" : {"from": "C", "to": "E"},
 		"C->F" : {"from": "C", "to": "F"},
@@ -38,13 +40,12 @@ var structure = {
 	}
 };
 var gr = new Graph(structure);
-var wfs = new WFS({graph : gr, from : 'A'});
-
 
 describe('unit test of search.js.', function(){
-	q = 'directed wfs should be able to find loop.';
+	q = 'directed wfs should be able to find the first loop.';
 	it(q, function(){
-		var result = wfs.search();
-		result.loops.length.should.equal(1);
+		var bfs = new BFS({graph : gr, initial : 'A', terminal : 'D', directive : true});
+		var result = bfs.search();
+		result.path.should.equal(['A->B','B->C','C->E','E->G','G->H','H->I','I->D'].toString());
 	});
 });

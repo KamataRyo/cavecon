@@ -1,4 +1,3 @@
-
 var gulp = require('gulp');
 //var exec = require('child_process').exec;
 var mocha = require('gulp-mocha');
@@ -12,10 +11,14 @@ var mocha = require('gulp-mocha');
 // })
 
 gulp.task('mocha',function(){
-	return gulp.src(['test/testOf.graph.js'], {read : false})
+	return gulp.src([
+			'test/testOf.graph.js',
+			'test/testOf.search.js'
+		],
+		 {read : false})
 		.pipe(mocha({reporter : 'nyan'}))
 });
 
-gulp.task('default',function(){
+gulp.task('default',['mocha'],function(){
 	gulp.watch(['./js/*','./test/*'],['mocha']);
 });

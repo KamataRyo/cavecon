@@ -1,5 +1,5 @@
 //{
-//	"nodes": {
+//	"vertices": {
 //		"A": {"property": "You can put any vertices propery here."},
 //		"B": {},
 //		"C": {}
@@ -13,46 +13,46 @@
 
 
 exports.Graph =function(structure){
-	this.nodes = structure.nodes;
+	this.vertices = structure.vertices;
 	this.edges = structure.edges;
-	this.NodeKeys = Object.keys(this.nodes);
-	this.EdgeKeys = Object.keys(this.edges);
+	this.vertexKeys = Object.keys(structure.vertices);
+	this.edgeKeys = Object.keys(structure.edges);
 
-	this.outboundEdges = function(node){
-		var keys = this.EdgeKeys;
+	this.outboundEdges = function(vertex){
+		var keys = this.edgeKeys;
 		var result = [];
 		for (var i = keys.length - 1; i >= 0; i--) {
-			if (this.edges[keys[i]].from === node) {
+			if (this.edges[keys[i]].from === vertex) {
 				result.push(keys[i]);
 			};
 		};
 		return result;
 	};
 
-	this.inboundEdges = function(node){
+	this.inboundEdges = function(vertex){
 		var keys = this.EdgeKeys;
 		var result = [];
 		for (var i = keys.length - 1; i >= 0; i--) {
-			if (this.edges[keys[i]].to === node) {
+			if (this.edges[keys[i]].to === vertex) {
 				result.push(keys[i]);
 			};
 		};
 		return result;
 	};
 
-	this.adjacentEdges = function(node){
+	this.adjacentEdges = function(vertex){
 		var keys = this.EdgeKeys;
 		var result = [];
 		for (var i = keys.length - 1; i >= 0; i--) {
-			if (this.edges[keys[i]].from === node || this.edges[keys[i]].to === node) {
+			if (this.edges[keys[i]].from === vertex || this.edges[keys[i]].to === vertex) {
 				result.push(keys[i]);
 			};
 		};
 		return result;
 	};
 
-	this.outboundVertices = function(node){
-		var edgeNames = this.outboundEdges(node);
+	this.outboundVertices = function(vertex){
+		var edgeNames = this.outboundEdges(vertex);
 		var result = [];
 		for (var i = edgeNames.length - 1; i >= 0; i--) {
 			result.push(this.edges[edgeNames[i]].to);
@@ -60,8 +60,8 @@ exports.Graph =function(structure){
 		return result;
 	};
 
-	this.inboundVertices = function(node){
-		var edgeNames = this.inboundEdges(node);
+	this.inboundVertices = function(vertex){
+		var edgeNames = this.inboundEdges(vertex);
 		var result = [];
 		for (var i = edgeNames.length - 1; i >= 0; i--) {
 			result.push(this.edges[edgeNames[i]].from);
@@ -69,13 +69,13 @@ exports.Graph =function(structure){
 		return result;
 	};
 
-	this.adjacentVertices = function(node){
-		var edgeNames = this.adjacentEdges(node);
+	this.adjacentVertices = function(vertex){
+		var edgeNames = this.adjacentEdges(vertex);
 		var e;
 		var result = [];
 		for (var i = edgeNames.length - 1; i >= 0; i--) {
 			e = this.edges[edgeNames[i]];
-			if (e.from === node) {
+			if (e.from === vertex) {
 				result.push(e.to);
 			}else{
 				result.push(e.from);

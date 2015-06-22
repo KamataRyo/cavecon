@@ -1,9 +1,8 @@
 var should = require('should');
 var Graph = require('../js/graph.js').Graph;
 var q = '';
-//var structure = require("./teststructure.json");
 var structure = {
-	"nodes": {
+	"vertices": {
 		"A": {},
 		"B": {},
 		"C": {}
