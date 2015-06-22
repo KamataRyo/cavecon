@@ -13,7 +13,7 @@ exports.BFS = function(arg){
 		var gr = this.graph;
 		var initial = this.initial;
 		var terminal = this.terminal;
-		var history = [];
+		var searched = [];
 		var cue = [initial];//root node
 		var next, nexts;
 		var from;
@@ -25,8 +25,7 @@ exports.BFS = function(arg){
 
 		do {
 			from = cue.shift();
-			history.push(from);
-
+			searched.push(from);
 			if (from === terminal) {
 				result.reachable = true;
 				break;
@@ -34,11 +33,9 @@ exports.BFS = function(arg){
 				nexts = gr.outboundVertices(from);
 				for (var i = nexts.length - 1; i >= 0; i--) {
 					next = nexts[i];
-					if (history.indexOf(next)) {
+					if (searched.indexOf(next)) {
 						cue.push(next);
-						//console.log(from,result.path[from]);
 						result.path[next] = result.path[from].concat([from]);
-						console.log(result.path);
 					};
 				};
 			};	
