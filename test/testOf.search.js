@@ -56,7 +56,15 @@ describe('unit test of search.js.', function(){
 	it(q, function() {
 		var bfs = new BFS({graph : gr, initial : 'C', terminal : 'D'});
 		var result = bfs.search();
-		result.path['D'].toString().should.equal(['C','E','G','H','I'].toString());
+		result.path['D'].toString().should.equal(['C','E','G','H','I','D'].toString());
+	});
+
+	q = 'collision detectiong';
+	it(q, function(){
+		var bfs = new BFS({graph : gr, initial : 'A' });
+		var result = bfs.search();
+		//console.log(bfs.terminal);
+		//console.log(result.collisions);
 	});
 
 
