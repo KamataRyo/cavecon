@@ -5,9 +5,9 @@ var q = '';
 
 // |-------|
 // |       v
-// A<---   D<---
+// A----   D<---
 // |   |       |
-// v   |       |
+// v   v       |
 // B-->C-->E   I
 //     |   |   ^
 //     v   v   |
@@ -27,8 +27,8 @@ var structure = {
 		},
 	"edges": {
 		"A->B" : {"from": "A", "to": "B"},
-		"B->C" : {"from": "A", "to": "C"},
-		"C->A" : {"from": "C", "to": "A"},
+		"B->C" : {"from": "B", "to": "C"},
+		"A->C" : {"from": "A", "to": "C"},
 		"A->D" : {"from": "A", "to": "D"},
 		"C->E" : {"from": "C", "to": "E"},
 		"C->F" : {"from": "C", "to": "F"},
@@ -42,10 +42,13 @@ var structure = {
 var gr = new Graph(structure);
 
 describe('unit test of search.js.', function(){
-	q = 'directed wfs should be able to find the first loop.';
+	q = 'directed wfs reachability test.';
 	it(q, function(){
-		var bfs = new BFS({graph : gr, initial : 'A', terminal : 'D', directive : true});
-		var result = bfs.search();
-		result.path.should.equal(['A->B','B->C','C->E','E->G','G->H','H->I','I->D'].toString());
+		var bfs1 = new BFS({graph : gr, initial : 'B', terminal : 'D' });
+		var bfs2 = new BFS({graph : gr, initial : 'C', terminal : 'B' });
+		var result1 = bfs1.search();
+		var result2 = bfs2.search();
+		result1.reachable.should.equal(true);
+		result2.reachable.should.equal(false);
 	});
 });
