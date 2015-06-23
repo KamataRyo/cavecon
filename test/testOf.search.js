@@ -59,18 +59,12 @@ describe('unit test of search.js.', function(){
 		result.path['D'].toString().should.equal(['C','E','G','H','I','D'].toString());
 	});
 
-	q = 'collision detectiong';
+	q = 'collision detecting';
 	it(q, function(){
-		var bfs = new BFS({graph : gr, initial : 'A' });
+		var bfs = new BFS({graph : gr, initial : 'A' , terminal : 'F'});
 		var result = bfs.search();
-		//console.log(bfs.terminal);
-		//console.log(result.collisions);
+		result.collisions[0].toString().should.equal([['A','B','C'],['A','C']].toString());
 	});
-
-
-
-
-
 
 
 });

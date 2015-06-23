@@ -16,7 +16,7 @@ gulp.task('mocha',function(){
 			'test/testOf.search.js'
 		],
 		 {read : false})
-		.pipe(mocha({reporter : 'nyan'}))
+		.pipe(mocha({reporter : 'Nyan'}))
 });
 
 gulp.task('default',['mocha'],function(){

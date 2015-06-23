@@ -9,6 +9,15 @@ exports.BFS = function(arg){
 	this.initial = arg.initial;
 	this.terminal = arg.terminal;
 
+	var findFirstLoop = function(path1, path2){
+		var n = Math.min(path1.length, path2.length);
+		var c = 0;
+		for (var i = 0 ; i < n; i--) {
+			if(path1[i] === path2[i]){c++};
+		};
+		return [];
+	};
+
 	this.search = function(){
 		var gr = this.graph;
 		var initial = this.initial;
@@ -17,11 +26,12 @@ exports.BFS = function(arg){
 		var visited = [];//memorize visited vertex(node).
 		var cue = [initial];//initiate with root vertex. this will be a task cue.
 
-		// result to be returned 
+		// result object structure to be returned 
 		var result = {
-			reachable : false,
-			path : {},
-			collisions : []
+			reachable : false, 
+			path : {}, //shortest path to the node named as key
+			collided : false,
+			collisions : []//collisions of 2 paths detected on the search
 		};
 		result.path[initial] = [];
 
@@ -57,7 +67,7 @@ exports.BFS = function(arg){
 				};
 			};	
 		} while (cue.length > 0);
-
+		
 		//paths is being completed with the destination itself.
 		var key;
 		for (var i = Object.keys(result.path).length - 1; i >= 0; i--) {
@@ -66,4 +76,5 @@ exports.BFS = function(arg){
 		};
 		return result;
 	};
+
 };
