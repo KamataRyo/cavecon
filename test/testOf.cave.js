@@ -28,25 +28,38 @@ var structure = {
 		"I": {}
 		},
 	"edges": {
-		"A->B" : {"from": "A", "to": "B"},
-		"B->C" : {"from": "B", "to": "C"},
-		"A->C" : {"from": "A", "to": "C"},
-		"A->D" : {"from": "A", "to": "D"},
-		"C->E" : {"from": "C", "to": "E"},
-		"C->F" : {"from": "C", "to": "F"},
-		"E->G" : {"from": "E", "to": "G"},
-		"G->F" : {"from": "G", "to": "F"},
-		"G->H" : {"from": "G", "to": "H"},
-		"H->I" : {"from": "H", "to": "I"},
-		"I->D" : {"from": "I", "to": "D"}
+		"A->B" : {from: "A", to: "B", properties: {weight : [ , , ] }},
+		"B->C" : {from: "B", to: "C", properties: {weight : [ , , ] }},
+		"A->C" : {from: "A", to: "C", properties: {weight : [ , , ] }},
+		"A->D" : {from: "A", to: "D", properties: {weight : [ , , ] }},
+		"C->E" : {from: "C", to: "E", properties: {weight : [ , , ] }},
+		"C->F" : {from: "C", to: "F", properties: {weight : [ , , ] }},
+		"E->G" : {from: "E", to: "G", properties: {weight : [ , , ] }},
+		"G->F" : {from: "G", to: "F", properties: {weight : [ , , ] }},
+		"G->H" : {from: "G", to: "H", properties: {weight : [ , , ] }},
+		"H->I" : {from: "H", to: "I", properties: {weight : [ , , ] }},
+		"I->D" : {from: "I", to: "D", properties: {weight : [ , , ] }}
 	}
 };
 var gr = new Graph(structure);
 var cv = new Cave(gr,'B');
 
 describe('cave module test.', function(){
+	
 	q = 'test of findFirstLoop';
 	it(q, function(){
 		cv.findFirstLoop().toString().should.equal([['C','E','G','F'],['C','F']].toString());
+	});
+
+	q = 'test of createVirtualShortPath';
+	it(q, function(){
+		var loop = cv.findFirstLoop();
+		cv.createVirtualShortPath(loop).length.should.equal(3);
+	});
+
+	q = 'test of closeFirstLoop';
+	it(q, function(){
+	var newgr = cv.closeFirstLoop();
+	newgr.outboundEdges('A').length.should.equal(2);
 	});
 });

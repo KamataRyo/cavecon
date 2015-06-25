@@ -9,15 +9,6 @@ exports.BFS = function(arg){
 	this.initial = arg.initial;
 	this.terminal = arg.terminal;
 
-	var findFirstLoop = function(path1, path2){
-		var n = Math.min(path1.length, path2.length);
-		var c = 0;
-		for (var i = 0 ; i < n; i--) {
-			if(path1[i] === path2[i]){c++};
-		};
-		return [];
-	};
-
 	this.search = function(){
 		var gr = this.graph;
 		var initial = this.initial;

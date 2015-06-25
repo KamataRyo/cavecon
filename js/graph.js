@@ -1,40 +1,23 @@
 //{
 //	"vertices": {
-//		"A": {"properties": "You can put any vertices propery here."},
+//		"A": {"properties": "You can put any vertices properies here."},
 //		"B": {},
 //		"C": {}
 //		},
 //	"edges": {
 //		"A->B" : {"from": "A", "to": "B"},
 //		"B->C" : {"from": "B", "to": "C"},
-//		"C->A" : {"from": "C", "to": "A", properties : {"weight" : {x:x, y:y, z:z}}}
+//		"C->A" : {"from": "C", "to": "A", properties : {"weight" : {x:x, y:y, z:z}, ...}}
 //	}
 //}
 
 
 exports.Graph =function(structure){
-	// Graph class
-	//  - allowed multi-edge
-
 	this.structure = structure;
 	this.vertices = structure.vertices;
 	this.edges = structure.edges;
 	this.vertexKeys = Object.keys(structure.vertices);
 	this.edgeKeys = Object.keys(structure.edges);
-
-	this.getEdges = function(from,to){
-		//filterring mrthod of edges
-		var result = [];
-		var keys = Object.keys(this.edges);
-		var edge;
-		for (var i = keys.length - 1; i >= 0; i--) {
-			edge = this.edges[keys[i]];
-			if (edge.from === from && edge.to === to) {
-				result.push(keys[i]);
-			};
-		};
-		return result;	
-	};
 
 	this.outboundEdges = function(vertex){
 		var keys = this.edgeKeys;
