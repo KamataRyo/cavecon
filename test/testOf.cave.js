@@ -1,4 +1,6 @@
 var should = require('should');
+var Graph = require('../js/graph.js').Graph;
+var Cave = require('../js/cave.js').Cave;
 var q = '';
 
 
@@ -39,3 +41,12 @@ var structure = {
 		"I->D" : {"from": "I", "to": "D"}
 	}
 };
+var gr = new Graph(structure);
+var cv = new Cave(gr,'B');
+
+describe('cave module test.', function(){
+	q = 'test of findFirstLoop';
+	it(q, function(){
+		cv.findFirstLoop().toString().should.equal([['C','E','G','F'],['C','F']].toString());
+	});
+});

@@ -63,6 +63,7 @@ exports.BFS = function(arg){
 						//finding visited node means collision detection(loop)
 						col1 = result.path[prev].concat([prev, next]);
 						col2 = result.path[next].concat(next);
+						result.collided = true;
 						result.collisions.push([col1,col2]);
 					};
 				};
@@ -75,10 +76,6 @@ exports.BFS = function(arg){
 			key = Object.keys(result.path)[i];
 			result.path[key].push(key);
 		};
-		//decide first Loop
-		col1 = result.collisions[0][0];
-		col2 = result.collisions[0][1];
-		
 
 		return result;
 	};

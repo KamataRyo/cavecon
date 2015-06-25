@@ -13,6 +13,9 @@
 
 
 exports.Graph =function(structure){
+	// Graph class
+	//  - allowed multi-edge
+
 	this.structure = structure;
 	this.vertices = structure.vertices;
 	this.edges = structure.edges;
@@ -20,6 +23,7 @@ exports.Graph =function(structure){
 	this.edgeKeys = Object.keys(structure.edges);
 
 	this.getEdges = function(from,to){
+		//filterring mrthod of edges
 		var result = [];
 		var keys = Object.keys(this.edges);
 		var edge;

@@ -2,12 +2,12 @@ var should = require('should');
 var Graph = require('../js/graph.js').Graph;
 var q = '';
 var structure = {
-	"vertices": {
+	vertices: {
 		"A": {},
 		"B": {},
 		"C": {}
 		},
-	"edges": {
+	edges: {
 		"A->B" : {"from": "A", "to": "B"},
 		"B->C" : {"from": "B", "to": "C"},
 		"C->A" : {"from": "C", "to": "A"}
@@ -16,7 +16,11 @@ var structure = {
 var gr = new Graph(structure);
 
 
+
+
 describe('unit test of graph.js.',function(){
+
+
 
 	q = 'test of Method getEdges';
 	it(q, function(){
