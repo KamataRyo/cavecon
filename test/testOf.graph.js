@@ -18,6 +18,13 @@ var gr = new Graph(structure);
 
 describe('unit test of graph.js.',function(){
 
+	q = 'test of Method getEdges';
+	it(q, function(){
+		gr.getEdges('A','B')[0].should.equal('A->B');
+	});
+
+
+
 	q = 'test of Method outboundEdges';
 	it(q, function(){
 		gr.outboundEdges('A').toString().should.equal(['A->B'].toString());
@@ -38,7 +45,7 @@ describe('unit test of graph.js.',function(){
 		gr.outboundVertices('A').toString().should.equal(['B'].toString());
 	});
 
-	// q = 'test of Method inboundVertices';
+	// q = 'test of Method inboun.shouddVertices';
 	// it(q, function(){
 	// 	gr.inboundVertices('B').toString().should.equal(['A'].toString());
 	// });
@@ -47,4 +54,5 @@ describe('unit test of graph.js.',function(){
 	// it(q, function(){
 	// 	gr.adjacentVertices('C').toString().should.equal(['B','A'].toString());
 	// });
+
 });

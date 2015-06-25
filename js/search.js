@@ -31,7 +31,8 @@ exports.BFS = function(arg){
 			reachable : false, 
 			path : {}, //shortest path to the node named as key
 			collided : false,
-			collisions : []//collisions of 2 paths detected on the search
+			collisions : [],//collisions of 2 paths detected on the search
+			firstLoop : []
 		};
 		result.path[initial] = [];
 
@@ -74,6 +75,11 @@ exports.BFS = function(arg){
 			key = Object.keys(result.path)[i];
 			result.path[key].push(key);
 		};
+		//decide first Loop
+		col1 = result.collisions[0][0];
+		col2 = result.collisions[0][1];
+		
+
 		return result;
 	};
 

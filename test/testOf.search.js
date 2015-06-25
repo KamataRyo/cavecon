@@ -3,6 +3,7 @@ var Graph = require('../js/graph.js').Graph;
 var BFS = require('../js/search.js').BFS;
 var q = '';
 
+// test graph structure
 // |-------|
 // |       v
 // A----   D<---
@@ -12,7 +13,7 @@ var q = '';
 //     |   |   ^
 //     v   v   |
 //     F<--G-->H
-
+//
 var structure = {
 	"vertices": {
 		"A": {},
@@ -66,6 +67,7 @@ describe('unit test of search.js.', function(){
 		result.collisions[0].toString().should.equal([['A','B','C'],['A','C']].toString());
 	});
 
+	q = ''
 
 });
 
