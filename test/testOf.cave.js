@@ -28,17 +28,17 @@ var structure = {
 		"I": {}
 		},
 	"edges": {
-		"A->B" : {from: "A", to: "B", properties: {weight : [ , , ] }},
-		"B->C" : {from: "B", to: "C", properties: {weight : [ , , ] }},
-		"A->C" : {from: "A", to: "C", properties: {weight : [ , , ] }},
-		"A->D" : {from: "A", to: "D", properties: {weight : [ , , ] }},
-		"C->E" : {from: "C", to: "E", properties: {weight : [ , , ] }},
-		"C->F" : {from: "C", to: "F", properties: {weight : [ , , ] }},
-		"E->G" : {from: "E", to: "G", properties: {weight : [ , , ] }},
-		"G->F" : {from: "G", to: "F", properties: {weight : [ , , ] }},
-		"G->H" : {from: "G", to: "H", properties: {weight : [ , , ] }},
-		"H->I" : {from: "H", to: "I", properties: {weight : [ , , ] }},
-		"I->D" : {from: "I", to: "D", properties: {weight : [ , , ] }}
+		"A->B" : {from: "A", to: "B", weight : [ , , ], residuals : [ , , ]},
+		"B->C" : {from: "B", to: "C", weight : [ , , ], residuals : [ , , ]},
+		"A->C" : {from: "A", to: "C", weight : [ , , ], residuals : [ , , ]},
+		"A->D" : {from: "A", to: "D", weight : [ , , ], residuals : [ , , ]},
+		"C->E" : {from: "C", to: "E", weight : [ , , ], residuals : [ , , ]},
+		"C->F" : {from: "C", to: "F", weight : [ , , ], residuals : [ , , ]},
+		"E->G" : {from: "E", to: "G", weight : [ , , ], residuals : [ , , ]},
+		"G->F" : {from: "G", to: "F", weight : [ , , ], residuals : [ , , ]},
+		"G->H" : {from: "G", to: "H", weight : [ , , ], residuals : [ , , ]},
+		"H->I" : {from: "H", to: "I", weight : [ , , ], residuals : [ , , ]},
+		"I->D" : {from: "I", to: "D", weight : [ , , ], residuals : [ , , ]}
 	}
 };
 var gr = new Graph(structure);
@@ -56,8 +56,20 @@ describe('cave module test.', function(){
 	// 	var loop = cv.findFirstLoop();
 	// 	cv.createVirtualShortPath(loop).length.should.equal(3);
 	// });
+	
+	q = 'test of cloneGraph';
+	it(q, function(){
+		cv.cloneGraph().toString().should.equal(cv.graph.toString());
+		cv.cloneGraph().should.not.equal(cv.graph);
+	});
 
 	q = 'test of closeFirstLoop';
 	it(q, function(){
+		//実装方針
+		//ループがなくなるまで、回す
+		//最初のループが発見された時、
+		//path1のweight合計と、path2のweight合計の差を計算し、すべての辺に分配
+		//真の重さをweight+resudualsとし、ループ→蜘蛛の巣に展開したcloneオブジェクトを作成
+		//新しいグラフをセットし、再度ループする
 	});
 });

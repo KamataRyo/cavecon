@@ -49,6 +49,12 @@ exports.Cave = function(graph,entry){
 
 	// 	return result;
 	// };
+	this.cloneGraph = function(){
+		var str = this.graph.structure;
+		var str_copied = JSON.parse(JSON.stringify(str));
+		var gr = new Graph(str_copied, this.entry);
+		return gr;
+	};
 
 	this.closeFirstLoop = function(){
 		var bfs = new BFS({
