@@ -29,30 +29,39 @@ exports.Cave = function(graph,entry){
 		};
 		return [path1, path2];
 	};
-	this.createVirtualShortPath = function(loop){
-		//loop : [[abcdef],[aghf]]
-		//reseult : [[ab],[ac],[ad],[ae],[ag],[ah],[af]]
-		var result = [];
-		var path1 = loop[0];
-		var path2 = loop[1];
-		var n1 = path1.length;
-		var n2 = path2.length;
-		var initial = path1[0];
-		var terminal = path1[n1 - 1];
-		for (var i = 1 ; i < n1 - 1; i++) {
-			result.push([initial, path1[n1]]);
-		};
-		for (var i = 1 ; i < n2 - 1; i++) {
-			result.push([initial, path2[n2]]);
-		};
-		result.push([initial, terminal]);
+	// this.createVirtualShortPath = function(loop){
+	// 	//loop : [[abcdef],[aghf]]
+	// 	//reseult : [[ab],[ac],[ad],[ae],[ag],[ah],[af]]
+	// 	var result = [];
+	// 	var path1 = loop[0];
+	// 	var path2 = loop[1];
+	// 	var n1 = path1.length;
+	// 	var n2 = path2.length;
+	// 	var initial = path1[0];
+	// 	var terminal = path1[n1 - 1];
+	// 	for (var i = 1 ; i < n1 - 1; i++) {
+	// 		result.push([initial, path1[n1]]);
+	// 	};
+	// 	for (var i = 1 ; i < n2 - 1; i++) {
+	// 		result.push([initial, path2[n2]]);
+	// 	};
+	// 	result.push([initial, terminal]);
 
-		return result;
-	};
+	// 	return result;
+	// };
 
 	this.closeFirstLoop = function(){
-		var gr = new Graph(this.graph.structure);
+		var bfs = new BFS({
+			graph : this.graph,
+			initial : this.entry
+		});
+		var result = bfs.search();
+		var result;
+		root: while (result.collsisions.length > 0) {
 
-		return gr;
+
+
+		};
+		return result;
 	};
 };

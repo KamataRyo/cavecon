@@ -67,7 +67,6 @@ describe('unit test of search.js.', function(){
 		result.collisions[0].toString().should.equal([['A','B','C'],['A','C']].toString());
 	});
 
-	q = ''
 
 });
 

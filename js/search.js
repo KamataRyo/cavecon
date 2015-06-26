@@ -22,8 +22,7 @@ exports.BFS = function(arg){
 			reachable : false, 
 			path : {}, //shortest path to the node named as key
 			collided : false,
-			collisions : [],//collisions of 2 paths detected on the search
-			firstLoop : []
+			collisions : []//collisions of 2 paths detected on the search
 		};
 		result.path[initial] = [];
 
@@ -33,13 +32,13 @@ exports.BFS = function(arg){
 		var col1, col2;
 
 		// bfs loop
-		do {
+		root: do {
 			prev = cue.shift();
 			visited.push(prev);
 			if (prev === terminal) {//if reached destineation
 				//case {ID: ''} allowed, this condition is needed -> (typeof terminal !== 'undefined')
 				result.reachable = true;
-				break;
+				break root;
 			} else {
 				nexts = gr.outboundVertices(prev);
 				for (var i = nexts.length - 1; i >= 0; i--) {
