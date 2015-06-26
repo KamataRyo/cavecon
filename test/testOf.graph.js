@@ -22,10 +22,10 @@ describe('unit test of graph.js.',function(){
 
 
 
-	// q = 'test of Method getEdges';
-	// it(q, function(){
-	// 	gr.getEdges('A','B')[0].should.equal('A->B');
-	// });
+	q = 'test of Method getEdges';
+	it(q, function(){
+		gr.getEdges('A','B')[0].should.equal('A->B');
+	});
 
 
 

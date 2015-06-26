@@ -19,6 +19,22 @@ exports.Graph =function(structure){
 	this.vertexKeys = Object.keys(structure.vertices);
 	this.edgeKeys = Object.keys(structure.edges);
 
+	this.getEdges = function(from, to){
+		var result = [];
+		var key,edge;
+		var isObjective = false;
+		var keys = Object.keys(this.edges);
+		for (var i = keys.length - 1; i >= 0; i--) {
+			key = keys[i];
+			edge = this.edges[key];
+			isObjective = (edge.from === from) && (this.edges[key].to === to);
+			if (isObjective) {
+				result.push(key);
+			};
+		};
+		return result;
+	};
+
 	this.outboundEdges = function(vertex){
 		var keys = this.edgeKeys;
 		var result = [];
