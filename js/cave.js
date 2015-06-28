@@ -1,7 +1,8 @@
 var Graph = require('../js/graph.js').Graph;
 var BFS = require('../js/search.js').BFS;
 
-	
+
+
 exports.Cave = function(graph,entry){
 	this.graph = graph;
 	this.entry = entry;
@@ -49,6 +50,9 @@ exports.Cave = function(graph,entry){
 
 	// 	return result;
 	// };
+
+
+
 	this.cloneGraph = function(){
 		var str = this.graph.structure;
 		var str_copied = JSON.parse(JSON.stringify(str));
@@ -56,18 +60,26 @@ exports.Cave = function(graph,entry){
 		return gr;
 	};
 
-	this.closeFirstLoop = function(){
+	this.closeLoop = function(){
 		var bfs = new BFS({
 			graph : this.graph,
 			initial : this.entry
 		});
 		var result = bfs.search();
-		var result;
-		root: while (result.collsisions.length > 0) {
-
-
+		var path1, path2;
+		var weight1, weight2;
+		var n1, n2;
+		while (result.collsisions.length > 0) {
+			path1 = result.collisions[0][0];
+			path2 = result.collisions[0][1];
+			n1 = path1.length;
+			n2 = path2.length;
+			for (var i = 1 ; i < n1 - 1 ; i++) {
+			 	
+			 }; 
 
 		};
+
 		return result;
 	};
 };

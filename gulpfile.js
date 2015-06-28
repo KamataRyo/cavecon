@@ -14,7 +14,8 @@ gulp.task('mocha',function(){
 	return gulp.src([
 			'test/testOf.graph.js',
 			'test/testOf.search.js',
-			'test/testOf.cave.js'
+			'test/testOf.cave.js',
+			'test/testOf.cvMath.js'
 		],
 		 {read : false})
 		.pipe(mocha({reporter : 'Nyan'}))
