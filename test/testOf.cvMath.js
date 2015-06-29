@@ -78,13 +78,41 @@ describe('test of cvMath.', function(){
 	});
 
 //weight calculation=================================
-	q = 'test of weightAdd method';
+	var polar1 = {
+		r: 5,
+		dir: 45,
+		til: 45
+	};
+	var polar2 = {
+		r: 5,
+		dir: 135,
+		til: 315
+	};
+	var result_actual = cvMath.polarAdd(polar1, polar2);
+	var result_expected = {
+		r: 5,
+		dir: 90,
+		til: 0
+	};
+
+	q = 'test of polarAdd.r method';
 	it(q, function(){
-		// var w1 = {r:, dir:, til: };
-		// var w2 = {r:, dir:, til: };
-		// var result = cvMath.weightAdd(w1, w2);
-		// result.r.should.equal();
-		// result.dir.should.equal();
-		// result.til.should.equal();
+		var expected = result_expected.r;
+		var actual = result_actual.r;
+		getDiff(expected, actual).should.equal(0);
+	});
+
+	q = 'test of polarAdd.dir method';
+	it(q, function(){
+		var expected = result_expected.dir;
+		var actual = result_actual.dir;
+		getDiff(expected, actual).should.equal(0);
+	});
+
+	q = 'test of polarAdd.til method';
+	it(q, function(){
+		var expected = result_expected.til;
+		var actual = result_actual.til;
+		getDiff(expected, actual).should.equal(0);
 	});
 });
