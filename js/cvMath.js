@@ -31,6 +31,13 @@ var polarToAngular = function(polar){
 	return result;
 };
 
+exports.__degreeToRadian = degreeToRadian;
+exports.__radianToDegree = radianToDegree;
+exports.angularToPolar = angularToPolar;
+exports.polarToAngular = polarToAngular;
+
+
+
 
 exports.polarAdd = function(polar1, polar2){
 	var angular1 = polarToAngular(polar1);
@@ -41,11 +48,21 @@ exports.polarAdd = function(polar1, polar2){
 		z : angular1.z + angular2.z
 	};
 	var result = angularToPolar(angularAddition);
-	console.log(angular1, angular2,result);
 	return result;
 };
 
-exports.__degreeToRadian = degreeToRadian;
-exports.__radianToDegree = radianToDegree;
-exports.angularToPolar = angularToPolar;
-exports.polarToAngular = polarToAngular;
+exports.polarMultiply = function(polar, coefficience){
+	var result = {
+		  r: polar.r * Math.abs(coefficience),
+		dir: polar.dir,
+		til: polar.til
+	};
+	if (coefficience < 0) {
+		result.dir = 180 + result.dir;
+		result.til = 360 - result.til;
+	};
+	if (result.dir >= 360) {
+		result.dir -= 360;
+	};
+	return result;
+};

@@ -9,110 +9,140 @@ var getDiff = function(expected, actual){
 	return result;
 };
 
-describe('test of cvMath.', function(){
 
-//Degree <--> radian=========================
-	var degree = 90;
-	var radian = Math.PI * 0.5;
-
-	q = 'test of degree -> Radian';
-	it(q, function(){
-		cvMath.__degreeToRadian(degree).should.equal(radian);
-	});
-
-	q = 'test of degree <- Radian';
-	it(q, function(){
-		cvMath.__radianToDegree(radian).should.equal(degree);
-	});
-//===========================================
-
-//angular <--> polar=========================
-	var polar = {
-		r: 2,
-		dir: 45,
-		til: 45
+//testing variables
+//-- group tests1 --
+	var tests1_degree = 90;
+	var tests1_radian = Math.PI * 0.5;
+//-- group tests2 --
+	var tests2_polar = {
+			r: 2,
+			dir: 45,
+			til: 45
 	};
-	var angular = {
-		x: 1,
-		y: 1,
-		z: Math.sqrt(2)
+	var tests2_angular = {
+			x: 1,
+			y: 1,
+			z: Math.sqrt(2)
 	};
-	var result_a2p = cvMath.angularToPolar(angular);
-	var result_p2a = cvMath.polarToAngular(polar);
-	q = 'test of angular -> polar.r';
-	it(q, function(){
-		var expected = polar.r;
-		var actual = result_a2p.r;
-		getDiff(expected, actual).should.equal(0);
-	});
-	q = 'test of angular -> polar.dir';
-	it(q, function(){
-		var expected = polar.dir;
-		var actual = result_a2p.dir;
-		getDiff(expected, actual).should.equal(0);
-	});
-	q = 'test of angular -> polar.til';
-	it(q, function(){
-		var expected = polar.til;
-		var actual = result_a2p.til;
-		getDiff(expected, actual).should.equal(0);
-	});
-
-	q = 'test of angular.x <- polar';
-	it(q, function(){
-		var expected = angular.x;
-		var actual = result_p2a.x;
-		getDiff(expected, actual).should.equal(0);
-	});
-	q = 'test of angular.y <- polar';
-	it(q, function(){
-		var expected = angular.y;
-		var actual = result_p2a.y;
-		getDiff(expected, actual).should.equal(0);
-	});
-	q = 'test of angular.z <- polar';
-	it(q, function(){
-		var expected = angular.z;
-		var actual = result_p2a.z;
-		getDiff(expected, actual).should.equal(0);
-	});
-
-//weight calculation=================================
-	var polar1 = {
+	var tests2_result_a2p = cvMath.angularToPolar(tests2_angular);
+	var tests2_result_p2a = cvMath.polarToAngular(tests2_polar);
+//-- group tests3 --
+	var tests3_polar1 = {
 		r: 5,
 		dir: 45,
 		til: 45
 	};
-	var polar2 = {
+	var tests3_polar2 = {
 		r: 5,
 		dir: 135,
 		til: 315
 	};
-	var result_actual = cvMath.polarAdd(polar1, polar2);
-	var result_expected = {
+
+	var tests3_addition_actual = cvMath.polarAdd(tests3_polar1, tests3_polar2);
+	var tests3_addition_expected = {
 		r: 5,
 		dir: 90,
 		til: 0
 	};
+	var tests3_multiple_actual = [
+		cvMath.polarMultiply(tests3_polar1, 2),
+		cvMath.polarMultiply(tests3_polar1, -2)
+	];
+	var tests3_multiple_expected = [
+		{
+			r: 10,
+			dir: 45,
+			til: 45
+		}, {
+			r: 10,
+			dir: 225,
+			til: 315
+		}
+	];
+	
 
-	q = 'test of polarAdd.r method';
-	it(q, function(){
-		var expected = result_expected.r;
-		var actual = result_actual.r;
-		getDiff(expected, actual).should.equal(0);
-	});
+//test definitions
+//this module always treats float var.
+var testcases = {
+	//--group tests1--
+	'test of degree -> radian' : {
+		 expections : [cvMath.__degreeToRadian(tests1_degree)],
+		actualities : [tests1_radian]
+	},
+	'test of radian -> degree' : {
+		 expections : [cvMath.__radianToDegree(tests1_radian)],
+		actualities : [tests1_degree]
+	},
+	//--group tests2--
+	'test of (angular -> polar).r' : {
+		 expections : [tests2_polar.r],
+		actualities : [tests2_result_a2p.r]
+	},
+	'test of (angular -> polar).dir' : {
+		 expections : [tests2_polar.dir],
+		actualities : [tests2_result_a2p.dir]
+	},
+	'test of (angular -> polar).til' : {
+		 expections : [tests2_polar.til],
+		actualities : [tests2_result_a2p.til]
+	},
+	'test of (polar -> angular).x' : {
+		 expections : [tests2_angular.x],
+		actualities : [tests2_result_p2a.x]
+	},
+	'test of (polar -> angular).y' : {
+		 expections : [tests2_angular.y],
+		actualities : [tests2_result_p2a.y]
+	},
+	'test of (polar -> angular).z' : {
+		 expections : [tests2_angular.z],
+		actualities : [tests2_result_p2a.z]
+	},
+	//--group tests3--
+	'test of polarAdd.r' : {
+		 expections : [tests3_addition_expected.r],
+		actualities : [tests3_addition_actual.r]
+	},
+	'test of polarAdd.dir' : {
+		 expections : [tests3_addition_expected.dir],
+		actualities : [tests3_addition_actual.dir]
+	},
+	'test of polarAdd.til' : {
+		 expections : [tests3_addition_expected.til],
+		actualities : [tests3_addition_actual.til]
+	},
+	'test of polarMultiply.r' : {
+		 expections : [tests3_multiple_expected.r],
+		actualities : [tests3_multiple_actual.r]
+	},
+	'test of polarMultiply.dir' : {
+		 expections : [tests3_multiple_expected.dir],
+		actualities : [tests3_multiple_actual.dir]
+	},
+	'test of polarMultiply.til' : {
+		 expections : [tests3_multiple_expected.til],
+		actualities : [tests3_multiple_actual.til]
+	}
+};
 
-	q = 'test of polarAdd.dir method';
-	it(q, function(){
-		var expected = result_expected.dir;
-		var actual = result_actual.dir;
-		getDiff(expected, actual).should.equal(0);
-	});
 
-	q = 'test of polarAdd.til method';
-	it(q, function(){
-		var expected = result_expected.til;
-		var actual = result_actual.til;
-		getDiff(expected, actual).should.equal(0);
-	});
+describe('test of cvMath.', function(){
+
+
+	var qs = Object.keys(testcases);
+	var q, expections, actualities;
+	var expected, actual;
+	for (var i = qs.length - 1; i >= 0; i--) {
+		q = qs[i];
+		expections = testcases[q].expections;
+		actualities = testcases[q].actualities;
+		for (var j = expections.length - 1; j >= 0; j--) {
+			expected = expections[j];
+			actual = actualities[j];
+			it(q, function(){
+				getDiff(expected,actual).should.equal(0);
+			});
+		};
+	};
 });
