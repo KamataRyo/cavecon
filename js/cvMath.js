@@ -51,7 +51,7 @@ exports.polarAdd = function(polar1, polar2){
 	return result;
 };
 
-exports.polarMultiply = function(polar, coefficience){
+exports.polarMult = function(polar, coefficience){
 	var result = {
 		  r: polar.r * Math.abs(coefficience),
 		dir: polar.dir,

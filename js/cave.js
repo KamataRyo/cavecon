@@ -8,7 +8,7 @@ exports.Cave = function(graph,entry){
 	this.entry = entry;
 	this.findFirstLoop = function(){
 		var bfs = new BFS({
-			graph : this.graph,
+			  graph : this.graph,
 			initial : this.entry,
 			});
 		var result = bfs.search();
@@ -30,55 +30,52 @@ exports.Cave = function(graph,entry){
 		};
 		return [path1, path2];
 	};
-	// this.createVirtualShortPath = function(loop){
-	// 	//loop : [[abcdef],[aghf]]
-	// 	//reseult : [[ab],[ac],[ad],[ae],[ag],[ah],[af]]
-	// 	var result = [];
-	// 	var path1 = loop[0];
-	// 	var path2 = loop[1];
-	// 	var n1 = path1.length;
-	// 	var n2 = path2.length;
-	// 	var initial = path1[0];
-	// 	var terminal = path1[n1 - 1];
-	// 	for (var i = 1 ; i < n1 - 1; i++) {
-	// 		result.push([initial, path1[n1]]);
-	// 	};
-	// 	for (var i = 1 ; i < n2 - 1; i++) {
-	// 		result.push([initial, path2[n2]]);
-	// 	};
-	// 	result.push([initial, terminal]);
 
-	// 	return result;
-	// };
-
-
-
-	this.cloneGraph = function(){
-		var str = this.graph.structure;
+	this.cloneGraph = function(gr){
+		var str = gr.structure;
 		var str_copied = JSON.parse(JSON.stringify(str));
 		var gr = new Graph(str_copied, this.entry);
 		return gr;
 	};
 
-	this.closeLoop = function(){
+	this.closeFirstLoop = function(gr, ent){
 		var bfs = new BFS({
-			graph : this.graph,
-			initial : this.entry
+			  graph : gr,
+			initial : ent
 		});
+		console.log(gr);
 		var result = bfs.search();
-		var path1, path2;
-		var weight1, weight2;
-		var n1, n2;
-		while (result.collsisions.length > 0) {
-			path1 = result.collisions[0][0];
-			path2 = result.collisions[0][1];
-			n1 = path1.length;
-			n2 = path2.length;
-			for (var i = 1 ; i < n1 - 1 ; i++) {
-			 	
-			 }; 
 
-		};
+		// var fixed;
+		// var vertices = Object.keys(this.structure.vertices);
+		// var vertex;
+		// for (var i = 0 ; i < vertices.length ; i++) {
+		// 	vertex = vertices[i];
+		// 	fixed[vertex] = false;
+		// };
+
+		// var path1, path2;
+		// var weight1, weight2;
+		// var n1, n2;
+		// var newGraph;
+		// var oldGraph = gr;
+		// while (result.collsisions.length > 0) {
+
+		// 	path1 = result.collisions[0][0];
+		// 	path2 = result.collisions[0][1];
+		// 	n1 = path1.length;
+		// 	n2 = path2.length;
+		// 	for (var i = 1 ; i < n1 - 1 ; i++) {
+			 	
+		// 	 };
+
+		// 	// newSpideredGraph = 
+		// 	//bfs = new BFS({
+		// 	// 	graph : newSpideredGraph,
+		// 	// 	initial : this.entry
+		// 	//});
+
+		// };
 
 		return result;
 	};

@@ -16,46 +16,46 @@ var getDiff = function(expected, actual){
 	var tests1_radian = Math.PI * 0.5;
 //-- group tests2 --
 	var tests2_polar = {
-			r: 2,
-			dir: 45,
-			til: 45
+		r: 2,
+		dir: 45,
+		til: 45
 	};
 	var tests2_angular = {
-			x: 1,
-			y: 1,
-			z: Math.sqrt(2)
+		x: 1,
+		y: 1,
+		z: Math.sqrt(2)
 	};
 	var tests2_result_a2p = cvMath.angularToPolar(tests2_angular);
 	var tests2_result_p2a = cvMath.polarToAngular(tests2_polar);
 //-- group tests3 --
 	var tests3_polar1 = {
-		r: 5,
+		  r: 5,
 		dir: 45,
 		til: 45
 	};
 	var tests3_polar2 = {
-		r: 5,
+		  r: 5,
 		dir: 135,
 		til: 315
 	};
 
 	var tests3_addition_actual = cvMath.polarAdd(tests3_polar1, tests3_polar2);
 	var tests3_addition_expected = {
-		r: 5,
+		  r: 5,
 		dir: 90,
 		til: 0
 	};
 	var tests3_multiple_actual = [
-		cvMath.polarMultiply(tests3_polar1, 2),
-		cvMath.polarMultiply(tests3_polar1, -2)
+		cvMath.polarMult(tests3_polar1,  2),
+		cvMath.polarMult(tests3_polar1, -2)
 	];
 	var tests3_multiple_expected = [
 		{
-			r: 10,
+			  r: 10,
 			dir: 45,
 			til: 45
 		}, {
-			r: 10,
+			  r: 10,
 			dir: 225,
 			til: 315
 		}
@@ -112,15 +112,15 @@ var testcases = {
 		 expections : [tests3_addition_expected.til],
 		actualities : [tests3_addition_actual.til]
 	},
-	'test of polarMultiply.r' : {
+	'test of polarMult.r' : {
 		 expections : [tests3_multiple_expected.r],
 		actualities : [tests3_multiple_actual.r]
 	},
-	'test of polarMultiply.dir' : {
+	'test of polarMult.dir' : {
 		 expections : [tests3_multiple_expected.dir],
 		actualities : [tests3_multiple_actual.dir]
 	},
-	'test of polarMultiply.til' : {
+	'test of polarMult.til' : {
 		 expections : [tests3_multiple_expected.til],
 		actualities : [tests3_multiple_actual.til]
 	}
@@ -128,8 +128,6 @@ var testcases = {
 
 
 describe('test of cvMath.', function(){
-
-
 	var qs = Object.keys(testcases);
 	var q, expections, actualities;
 	var expected, actual;
