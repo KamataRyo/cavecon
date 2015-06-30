@@ -1,14 +1,7 @@
 var gulp = require('gulp');
-//var exec = require('child_process').exec;
 var mocha = require('gulp-mocha');
-
-// gulp.task('exec', function (cb) {
-//   exec('node index.js', function (err, stdout, stderr) {
-//     console.log(stdout);
-//     console.log(stderr);
-//     cb(err);
-//   });
-// })
+var plumber = require('gulp-plumber');
+var notifier = require('node-notifier');
 
 gulp.task('mocha',function(){
 	return gulp.src([
@@ -18,9 +11,17 @@ gulp.task('mocha',function(){
 			'test/testOf.cvMath.js'
 		],
 		 {read : false})
-		.pipe(mocha({reporter : 'Nyan'}))
+		//.pipe(plumber()
+		.pipe(mocha({reporter : 'Nyan'}).on('error', function(err) {
+      		notifier.notify({
+        		message: err.message,
+        		title: 'mocha plugin error',
+        		sound: 'Glass'
+      		});
+    }));
+
 });
 
 gulp.task('default',['mocha'],function(){
-	gulp.watch(['./js/*','./test/*'],['mocha']);
+	gulp.watch(['./js/*','./test/*'],['mocha'])
 });
