@@ -1,5 +1,7 @@
 var should = require('should');
 var cvMath = require('../js/cvMath.js');
+var __ = require('underscore');
+
 var q = '';
 var digitToCheck = 4;// num of digit to check value approximately
 
@@ -67,80 +69,83 @@ var getDiff = function(expected, actual){
 var testcases = {
 	//--group tests1--
 	'test of degree -> radian' : {
-		 expections : [cvMath.__degreeToRadian(tests1_degree)],
-		actualities : [tests1_radian]
+		expected : cvMath.__degreeToRadian(tests1_degree),
+		  actual : tests1_radian
 	},
 	'test of radian -> degree' : {
-		 expections : [cvMath.__radianToDegree(tests1_radian)],
-		actualities : [tests1_degree]
+		expected : cvMath.__radianToDegree(tests1_radian),
+		  actual : tests1_degree
 	},
 	//--group tests2--
 	'test of (angular -> polar).r' : {
-		 expections : [tests2_polar.r],
-		actualities : [tests2_result_a2p.r]
+		expected : tests2_polar.r,
+		  actual : tests2_result_a2p.r
 	},
 	'test of (angular -> polar).dir' : {
-		 expections : [tests2_polar.dir],
-		actualities : [tests2_result_a2p.dir]
+		expected : tests2_polar.dir,
+		  actual : tests2_result_a2p.dir
 	},
 	'test of (angular -> polar).til' : {
-		 expections : [tests2_polar.til],
-		actualities : [tests2_result_a2p.til]
+		expected : tests2_polar.til,
+		  actual : tests2_result_a2p.til
 	},
 	'test of (polar -> angular).x' : {
-		 expections : [tests2_angular.x],
-		actualities : [tests2_result_p2a.x]
+		expected : tests2_angular.x,
+		  actual : tests2_result_p2a.x
 	},
 	'test of (polar -> angular).y' : {
-		 expections : [tests2_angular.y],
-		actualities : [tests2_result_p2a.y]
+		expected : tests2_angular.y,
+		  actual : tests2_result_p2a.y
 	},
 	'test of (polar -> angular).z' : {
-		 expections : [tests2_angular.z],
-		actualities : [tests2_result_p2a.z]
+		expected : tests2_angular.z,
+		  actual : tests2_result_p2a.z
 	},
 	//--group tests3--
 	'test of polarAdd.r' : {
-		 expections : [tests3_addition_expected.r],
-		actualities : [tests3_addition_actual.r]
+		expected : tests3_addition_expected.r,
+		  actual : tests3_addition_actual.r
 	},
 	'test of polarAdd.dir' : {
-		 expections : [tests3_addition_expected.dir],
-		actualities : [tests3_addition_actual.dir]
+		expected : tests3_addition_expected.dir,
+		  actual : tests3_addition_actual.dir
 	},
 	'test of polarAdd.til' : {
-		 expections : [tests3_addition_expected.til],
-		actualities : [tests3_addition_actual.til]
+		expected : tests3_addition_expected.til,
+		  actual : tests3_addition_actual.til
 	},
-	'test of polarMult.r' : {
-		 expections : [tests3_multiple_expected.r],
-		actualities : [tests3_multiple_actual.r]
+	'test of polarMult(positive).r' : {
+		expected : tests3_multiple_expected[0].r,
+		  actual : tests3_multiple_actual[0].r
 	},
-	'test of polarMult.dir' : {
-		 expections : [tests3_multiple_expected.dir],
-		actualities : [tests3_multiple_actual.dir]
+	'test of polarMult(positive).dir' : {
+		expected : tests3_multiple_expected[0].dir,
+		  actual : tests3_multiple_actual[0].dir
 	},
-	'test of polarMult.til' : {
-		 expections : [tests3_multiple_expected.til],
-		actualities : [tests3_multiple_actual.til]
+	'test of polarMult(positive).til' : {
+		expected : tests3_multiple_expected[0].til,
+		  actual : tests3_multiple_actual[0].til
+	},
+	'test of polarMult(negative).r' : {
+		expected : tests3_multiple_expected[1].r,
+		  actual : tests3_multiple_actual[1].r
+	},
+	'test of polarMult(negative).dir' : {
+		expected : tests3_multiple_expected[1].dir,
+		  actual : tests3_multiple_actual[1].dir
+	},
+	'test of polarMult(negative).til' : {
+		expected : tests3_multiple_expected[1].til,
+		  actual : tests3_multiple_actual[1].til
 	}
 };
 
 
 describe('test of cvMath.', function(){
-	var qs = Object.keys(testcases);
-	var q, expections, actualities;
-	var expected, actual;
-	for (var i = qs.length - 1; i >= 0; i--) {
-		q = qs[i];
-		expections = testcases[q].expections;
-		actualities = testcases[q].actualities;
-		for (var j = expections.length - 1; j >= 0; j--) {
-			expected = expections[j];
-			actual = actualities[j];
-			it(q, function(){
-				getDiff(expected,actual).should.equal(0);
-			});
-		};
-	};
+	var testcase;
+	__.each(testcases,function(testcase, q){
+		it(q, function(){
+			getDiff(testcase.expected,testcase.actual).should.equal(0);
+		});
+	});
 });

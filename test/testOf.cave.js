@@ -1,7 +1,9 @@
 var should = require('should');
 var Graph = require('../js/graph.js').Graph;
 var Cave = require('../js/cave.js').Cave;
+var __ = require('underscore');
 var q = '';
+
 var whetherTheyHaveSameContent = function(expected, actual){
 	var expectedJSONstring = JSON.stringify(expected);
 	var actualJSONstring = JSON.stringify(actual);
@@ -10,6 +12,7 @@ var whetherTheyHaveSameContent = function(expected, actual){
 var whetherTheyAreSameObjects = function(expected, actual){
 	return (expected === actual);
 };
+
 // test graph structure
 // |-------|
 // |       v
@@ -180,40 +183,35 @@ describe('cave module test.', function(){
 	});
 
 
-
-	var expectations = [
-		cv.closeFirstLoop(loopClosingGraph[0], 'A', {}),
-		cv.closeFirstLoop(loopClosingGraph[1], 'A', {}),
-		cv.closeFirstLoop(loopClosingGraph[2], 'A', {}),
-		cv.closeFirstLoop(loopClosingGraph[3], 'A', {})
-	];
-	var actualities = [
-		loopClosingGraph[1],
-		loopClosingGraph[2],
-		loopClosingGraph[3],
-		loopClosingGraph[3]
-	];
-	var sub_q = [
-		' 1/3',
-		' 2/3',
-		' 3/3',
-		' case no loop'
-	];
-	var expected, actual;
-
-	for (var i = 0 ; i < expectations.length ; i++) {
-
-
-		q = 'test of closeFirstLoop' + sub_q[i];
-		it(q, function(){
-
-			expected = expectations[i];
-			actual = actualities[i];
-			console.log(expected);
-			whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
-			whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
-		});
+	var testcases = {
+		'test of closeFirstLoop 1/3' :
+			{
+				expected : cv.closeFirstLoop(loopClosingGraph[0], 'A', {}),
+				  actual : loopClosingGraph[1]
+			},
+		'test of closeFirstLoop 2/3' :
+			{
+				expected : cv.closeFirstLoop(loopClosingGraph[1], 'A', {}),
+				  actual : loopClosingGraph[2]
+			},
+		'test of closeFirstLoop 3/3' :
+			{
+				expected : cv.closeFirstLoop(loopClosingGraph[2], 'A', {}),
+				  actual : loopClosingGraph[3]
+			},
+		'test of closeFirstLoop (AllLoopClosed)' :
+			{
+				expected : cv.closeFirstLoop(loopClosingGraph[3], 'A', {}),
+				  actual : loopClosingGraph[3]
+			}
 	};
+
+	__.each(testcases, function(testcase, q){
+		it(q, function(){
+			whetherTheyHaveSameContent(testcase.expected, testcase.actual).should.be.exactly(true);
+			whetherTheyAreSameObjects(testcase.expected, testcase.actual).should.be.exactly(false);
+		});
+	})
 
 		//実装方針
 	//ループがなくなるまで、回す

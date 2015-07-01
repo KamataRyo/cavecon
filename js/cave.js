@@ -57,6 +57,9 @@ exports.Cave = function(graph,entry){
 			exceptions[vertex] = false;
 		};
 
+		if (search_result.collisions.length === 0) {
+			return new_graph;
+		};
 		// var path1, path2;
 		// var weight1, weight2;
 		// var n1, n2;
