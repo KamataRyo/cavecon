@@ -52,10 +52,8 @@ var gr = new Graph(structure);
 var cv = new Cave(gr,'B');
 
 
-
-
 var loopClosingGraph = [
-	{
+	new Graph({
 		"vertices": {
 			"A": {},
 			"B": {},
@@ -80,7 +78,8 @@ var loopClosingGraph = [
 			"H->I" : {"from": "H", "to": "I", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}},
 			"I->D" : {"from": "I", "to": "D", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}}
 		}
-	},{
+	}),
+	new Graph({
 		"vertices": {
 			"A": {},
 			"B": {},
@@ -89,6 +88,8 @@ var loopClosingGraph = [
 			"E": {},
 			"F": {},
 			"G": {},
+			"H": {},
+			"I": {}
 			},
 		"edges": {
 			"A->B" : {"from": "A", "to": "B", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}},
@@ -103,7 +104,8 @@ var loopClosingGraph = [
 			"H->I" : {"from": "H", "to": "I", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}},
 			"I->D" : {"from": "I", "to": "D", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}}
 		}
-	},{
+	}),
+	new Graph({
 		"vertices": {
 			"A": {},
 			"B": {},
@@ -112,6 +114,8 @@ var loopClosingGraph = [
 			"E": {},
 			"F": {},
 			"G": {},
+			"H": {},
+			"I": {}
 			},
 		"edges": {
 			"A->B" : {"from": "A", "to": "B", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}},
@@ -126,7 +130,8 @@ var loopClosingGraph = [
 			"H->I" : {"from": "H", "to": "I", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}},
 			"I->D" : {"from": "I", "to": "D", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}}
 		}
-	},{
+	}),
+	new Graph({
 		"vertices": {
 			"A": {},
 			"B": {},
@@ -135,6 +140,8 @@ var loopClosingGraph = [
 			"E": {},
 			"F": {},
 			"G": {},
+			"H": {},
+			"I": {}
 			},
 		"edges": {
 			"A->B" : {"from": "A", "to": "B", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}},
@@ -149,7 +156,7 @@ var loopClosingGraph = [
 			"H->I" : {"from": "H", "to": "I", "weight" : {"r":1, "dir":1 ,"til":1}, "residuals" : {"r":1, "dir":1 ,"til":1}}
 
 		}
-	}
+	})
 ]
 
 
@@ -172,29 +179,47 @@ describe('cave module test.', function(){
 		whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
 
-	q = 'test of closeFirstLoop';
-	it(q, function(){
-		var expectations = [
-			cv.closeFirstLoop(loopClosingGraph[0], 'A'),
-			cv.closeFirstLoop(loopClosingGraph[1], 'A'),
-		];
-		var actualities = [
-			loopClosingGraph[1],
-			loopClosingGraph[2]
-		];
-		var expected, actual;
 
-		for (var i = 0 ; i < expectations.length ; i++) {
+
+	var expectations = [
+		cv.closeFirstLoop(loopClosingGraph[0], 'A', {}),
+		cv.closeFirstLoop(loopClosingGraph[1], 'A', {}),
+		cv.closeFirstLoop(loopClosingGraph[2], 'A', {}),
+		cv.closeFirstLoop(loopClosingGraph[3], 'A', {})
+	];
+	var actualities = [
+		loopClosingGraph[1],
+		loopClosingGraph[2],
+		loopClosingGraph[3],
+		loopClosingGraph[3]
+	];
+	var sub_q = [
+		' 1/3',
+		' 2/3',
+		' 3/3',
+		' case no loop'
+	];
+	var expected, actual;
+
+	for (var i = 0 ; i < expectations.length ; i++) {
+
+
+		q = 'test of closeFirstLoop' + sub_q[i];
+		it(q, function(){
+
 			expected = expectations[i];
 			actual = actualities[i];
+			console.log(expected);
 			whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
 			whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
-		};
+		});
+	};
+
 		//実装方針
-		//ループがなくなるまで、回す
-		//最初のループが発見された時、
-		//path1のweight合計と、path2のweight合計の差を計算し、すべての辺に分配
-		//真の重さをweight+resudualsとし、ループ→蜘蛛の巣に展開したcloneオブジェクトを作成
-		//新しいグラフをセットし、再度ループする
-	});
+	//ループがなくなるまで、回す
+	//最初のループが発見された時、
+	//path1のweight合計と、path2のweight合計の差を計算し、すべての辺に分配
+	//真の重さをweight+resudualsとし、ループ→蜘蛛の巣に展開したcloneオブジェクトを作成
+	//新しいグラフをセットし、再度ループする
+	
 });

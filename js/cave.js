@@ -31,6 +31,7 @@ exports.Cave = function(graph,entry){
 		return [path1, path2];
 	};
 
+	//create deepcopy of graph
 	this.cloneGraph = function(gr){
 		var str = gr.structure;
 		var str_copied = JSON.parse(JSON.stringify(str));
@@ -38,27 +39,28 @@ exports.Cave = function(graph,entry){
 		return gr;
 	};
 
-	this.closeFirstLoop = function(gr, ent){
+	this.closeFirstLoop = function(old_graph, ent, exceptions){
+		//do bfs for old graph
 		var bfs = new BFS({
-			  graph : gr,
+			  graph : old_graph,
 			initial : ent
 		});
-		console.log(gr);
-		var result = bfs.search();
+		var search_result = bfs.search();
 
-		// var fixed;
-		// var vertices = Object.keys(this.structure.vertices);
-		// var vertex;
-		// for (var i = 0 ; i < vertices.length ; i++) {
-		// 	vertex = vertices[i];
-		// 	fixed[vertex] = false;
-		// };
+		//initiate result of this method by clone
+		//new_graph will be transformed during this procedure
+		var new_graph = this.cloneGraph(old_graph);
+		var vertices = Object.keys(old_graph.structure.vertices);
+		var vertex;
+		for (var i = 0 ; i < vertices.length ; i++) {
+			vertex = vertices[i];
+			exceptions[vertex] = false;
+		};
 
 		// var path1, path2;
 		// var weight1, weight2;
 		// var n1, n2;
-		// var newGraph;
-		// var oldGraph = gr;
+
 		// while (result.collsisions.length > 0) {
 
 		// 	path1 = result.collisions[0][0];
@@ -77,6 +79,6 @@ exports.Cave = function(graph,entry){
 
 		// };
 
-		return result;
+		return new_graph;
 	};
 };

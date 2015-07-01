@@ -10,6 +10,7 @@ var mocha = require('gulp-mocha');
 //   });
 // })
 
+
 gulp.task('mocha',function(){
 	return gulp.src([
 			'test/testOf.graph.js',
@@ -18,7 +19,7 @@ gulp.task('mocha',function(){
 			'test/testOf.cvMath.js'
 		],
 		 {read : false})
-		.pipe(mocha({reporter : 'Nyan'}))
+		.pipe(mocha({reporter : 'Nyan'}));
 });
 
 gulp.task('default',['mocha'],function(){
