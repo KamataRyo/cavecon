@@ -1,3 +1,4 @@
+var __ = require('underscore');
 //{
 //	"vertices": {
 //		"A": {"properties": "You can put any vertices properies here."},
@@ -16,89 +17,40 @@ exports.Graph =function(structure){
 	this.structure = structure;
 	this.vertices = structure.vertices;
 	this.edges = structure.edges;
-	this.vertexKeys = Object.keys(structure.vertices);
-	this.edgeKeys = Object.keys(structure.edges);
+	//this.vertexKeys = Object.keys(structure.vertices);
+	//this.edgeKeys = Object.keys(structure.edges);
 
 	this.getEdges = function(from, to){
 		var result = [];
-		var key,edge;
-		var isObjective = false;
-		var keys = Object.keys(this.edges);
-		for (var i = keys.length - 1; i >= 0; i--) {
-			key = keys[i];
-			edge = this.edges[key];
-			isObjective = (edge.from === from) && (this.edges[key].to === to);
-			if (isObjective) {
+		__.each(this.edges, function(edge, key){
+			var where = (edge.from === from) && (edge.to === to);
+			if (where) {
 				result.push(key);
 			};
-		};
+		});
 		return result;
 	};
 
 	this.outboundEdges = function(vertex){
-		var keys = this.edgeKeys;
 		var result = [];
-		for (var i = keys.length - 1; i >= 0; i--) {
-			if (this.edges[keys[i]].from === vertex) {
-				result.push(keys[i]);
+		__.each(this.edges, function(edge, key){
+			var where = (edge.from === vertex);
+			if (where) {
+				result.push(key);
 			};
-		};
+		});
 		return result;
 	};
-
-	// this.inboundEdges = function(vertex){
-	// 	var keys = this.edgeKeys;
-	// 	var result = [];
-	// 	for (var i = keys.length - 1; i >= 0; i--) {
-	// 		if (this.edges[keys[i]].to === vertex) {
-	// 			result.push(keys[i]);
-	// 		};
-	// 	};
-	// 	return result;
-	// };
-
-	// this.adjacentEdges = function(vertex){
-	// 	var keys = this.edgeKeys;
-	// 	var result = [];
-	// 	for (var i = keys.length - 1; i >= 0; i--) {
-	// 		if (this.edges[keys[i]].from === vertex || this.edges[keys[i]].to === vertex) {
-	// 			result.push(keys[i]);
-	// 		};
-	// 	};
-	// 	return result;
-	// };
 
 	this.outboundVertices = function(vertex){
-		var edgeNames = this.outboundEdges(vertex);
 		var result = [];
-		for (var i = edgeNames.length - 1; i >= 0; i--) {
-			result.push(this.edges[edgeNames[i]].to);
-		};
+		__.each(this.edges, function(edge){
+			var where = (edge.from === vertex);
+			if (where) {
+				result.push(edge.to);
+			};
+		});
+
 		return result;
 	};
-
-	// this.inboundVertices = function(vertex){
-	// 	var edgeNames = this.inboundEdges(vertex);
-	// 	var result = [];
-	// 	for (var i = edgeNames.length - 1; i >= 0; i--) {
-	// 		result.push(this.edges[edgeNames[i]].from);
-	// 	};
-	// 	return result;
-	// };
-
-	// this.adjacentVertices = function(vertex){
-	// 	var edgeNames = this.adjacentEdges(vertex);
-	// 	var e;
-	// 	var result = [];
-	// 	for (var i = edgeNames.length - 1; i >= 0; i--) {
-	// 		e = this.edges[edgeNames[i]];
-	// 		if (e.from === vertex) {
-	// 			result.push(e.to);
-	// 		}else{
-	// 			result.push(e.from);
-	// 		};
-	// 	};
-	// 	return result;
-	// };
-
-	};
+};
