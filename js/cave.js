@@ -1,6 +1,6 @@
 var Graph = require('../js/graph.js').Graph;
 var BFS = require('../js/search.js').BFS;
-
+var __ = require('underscore');
 
 
 exports.Cave = function(graph,entry){
@@ -10,7 +10,7 @@ exports.Cave = function(graph,entry){
 		var bfs = new BFS({
 			  graph : this.graph,
 			initial : this.entry,
-			});
+		});
 		var result = bfs.search();
 		if (!result.collided) {return null;};
 
@@ -50,16 +50,20 @@ exports.Cave = function(graph,entry){
 		//initiate result of this method by clone
 		//new_graph will be transformed during this procedure
 		var new_graph = this.cloneGraph(old_graph);
-		var vertices = Object.keys(old_graph.structure.vertices);
-		var vertex;
-		for (var i = 0 ; i < vertices.length ; i++) {
-			vertex = vertices[i];
-			exceptions[vertex] = false;
-		};
 
-		if (search_result.collisions.length === 0) {
-			return new_graph;
-		};
+		__.each(old_graph.structure.vertices, function(value, key){
+			exceptions[key] = false;
+		});
+		// var vertices = Object.keys(old_graph.structure.vertices);
+		// var vertex;
+		// for (var i = 0 ; i < vertices.length ; i++) {
+		// 	vertex = vertices[i];
+		// 	exceptions[vertex] = false;
+		// };
+
+		// if (search_result.collisions.length === 0) {
+		// 	return new_graph;
+		// };
 		// var path1, path2;
 		// var weight1, weight2;
 		// var n1, n2;

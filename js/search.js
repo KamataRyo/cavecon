@@ -31,7 +31,7 @@ exports.BFS = function(arg){
 		// temporary variablea
 		var next, nexts;
 		var prev;
-		var col1, col2;
+		//var col1, col2;
 
 		// bfs loop
 		root: do {
@@ -62,13 +62,10 @@ exports.BFS = function(arg){
 			};	
 		} while (cue.length > 0);
 		
-		
-
-		var key;
-		for (var i = Object.keys(result.paths).length - 1; i >= 0; i--) {
-			key = Object.keys(result.paths)[i];
-			result.paths[key].push(key);
-		};
+		//path to the point will end with itself
+		__.each(result.paths, function(value, key, me){
+			me[key].push(key);
+		});
 
 		return result;
 	};

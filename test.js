@@ -34,3 +34,14 @@ console.timeEnd('function1');
 console.time('function2');
 the_normal(o);
 console.timeEnd('function2');
+
+
+
+var a = 'aaa';
+var ls = [1,2,3,4,5];
+
+__.each(ls,function(item){
+	console.log(a,ls);
+});
+
+
