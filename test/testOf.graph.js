@@ -1,5 +1,7 @@
 var should = require('should');
 var Graph = require('../js/graph.js').Graph;
+var tester = require('../test/tester.js');
+
 var q = '';
 var structure = {
 	vertices: {
@@ -23,20 +25,29 @@ describe('unit test of graph.js.',function(){
 
 	q = 'test of Method getEdges';
 	it(q, function(){
-		gr.getEdges('A','B')[0].should.equal('A->B');
+		var expected = ['A->B'];
+		var actual = gr.getEdges('A','B');
+		tester.whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
+		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
 
 
 
 	q = 'test of Method outboundEdges';
 	it(q, function(){
-		gr.outboundEdges('A').toString().should.equal(['A->B'].toString());
+		var expected = ['A->B'];
+		var actual = gr.outboundEdges('A');
+		tester.whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
+		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
 
 
 	q = 'test of Method outboundVertices';
 	it(q, function(){
-		gr.outboundVertices('A').toString().should.equal(['B'].toString());
+var expected = ['B'];
+		var actual = gr.outboundVertices('A');
+		tester.whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
+		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
 
 });

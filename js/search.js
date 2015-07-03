@@ -1,3 +1,5 @@
+var __ = require('underscore');
+
 exports.BFS = function(arg){
 	//breadth first search 幅優先探索
 	// args = {
@@ -20,11 +22,11 @@ exports.BFS = function(arg){
 		// result object structure to be returned 
 		var result = {
 			reachable : false, 
-			path : {}, //shortest path to the node named as key
+			paths : {}, //shortest paths to the node named as key
 			collided : false,
 			collisions : []//collisions of 2 paths detected on the search
 		};
-		result.path[initial] = [];
+		result.paths[initial] = [];
 
 		// temporary variablea
 		var next, nexts;
@@ -46,13 +48,13 @@ exports.BFS = function(arg){
 					//individual next vertices will be checked whether visited or not.
 					if (visited.indexOf(next) === -1) {
 						cue.push(next);
-						//path to the node will be memorize
-						result.path[next] = result.path[prev].concat([prev]);
+						//paths to the node will be memorize
+						result.paths[next] = result.paths[prev].concat([prev]);
 					} else {
-						//path to the node will be memorize additionally to prev.
+						//paths to the node will be memorize additionally to prev.
 						//finding visited node means collision detection(loop)
-						col1 = result.path[prev].concat([prev, next]);
-						col2 = result.path[next].concat(next);
+						col1 = result.paths[prev].concat([prev, next]);
+						col2 = result.paths[next].concat(next);
 						result.collided = true;
 						result.collisions.push([col1,col2]);
 					};
@@ -60,11 +62,12 @@ exports.BFS = function(arg){
 			};	
 		} while (cue.length > 0);
 		
-		//paths is being completed with the destination itself.
+		
+
 		var key;
-		for (var i = Object.keys(result.path).length - 1; i >= 0; i--) {
-			key = Object.keys(result.path)[i];
-			result.path[key].push(key);
+		for (var i = Object.keys(result.paths).length - 1; i >= 0; i--) {
+			key = Object.keys(result.paths)[i];
+			result.paths[key].push(key);
 		};
 
 		return result;

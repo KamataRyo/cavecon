@@ -2,16 +2,8 @@ var should = require('should');
 var Graph = require('../js/graph.js').Graph;
 var Cave = require('../js/cave.js').Cave;
 var __ = require('underscore');
+var tester = require('../test/tester.js');
 var q = '';
-
-var whetherTheyHaveSameContent = function(expected, actual){
-	var expectedJSONstring = JSON.stringify(expected);
-	var actualJSONstring = JSON.stringify(actual);
-	return (expectedJSONstring === actualJSONstring);
-};
-var whetherTheyAreSameObjects = function(expected, actual){
-	return (expected === actual);
-};
 
 // test graph structure
 // |-------|
@@ -170,16 +162,16 @@ describe('cave module test.', function(){
 	it(q, function(){
 		var expected = [['C','E','G','F'],['C','F']];
 		var actual = cv.findFirstLoop();
-		whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
-		whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
+		tester.whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
+		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
 	
 	q = 'test of cloneGraph';
 	it(q, function(){
 		var expected = cv.graph;
 		var actual = cv.cloneGraph(cv.graph);
-		whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
-		whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
+		tester.whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
+		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
 
 
@@ -208,8 +200,8 @@ describe('cave module test.', function(){
 
 	__.each(testcases, function(testcase, q){
 		it(q, function(){
-			whetherTheyHaveSameContent(testcase.expected, testcase.actual).should.be.exactly(true);
-			whetherTheyAreSameObjects(testcase.expected, testcase.actual).should.be.exactly(false);
+			tester.whetherTheyHaveSameContent(testcase.expected, testcase.actual).should.be.exactly(true);
+			tester.whetherTheyAreSameObjects(testcase.expected, testcase.actual).should.be.exactly(false);
 		});
 	})
 

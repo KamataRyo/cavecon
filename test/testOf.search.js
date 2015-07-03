@@ -1,4 +1,5 @@
 var should = require('should');
+var tester = require('../test/tester.js');
 var Graph = require('../js/graph.js').Graph;
 var BFS = require('../js/search.js').BFS;
 var q = '';
@@ -42,8 +43,10 @@ var structure = {
 };
 var gr = new Graph(structure);
 
+
+
 describe('unit test of search.js.', function(){
-	q = 'directed wfs reachability test.';
+	q = 'directed wfs reachability(result.reachable) test.';
 	it(q, function(){
 		var bfs1 = new BFS({graph : gr, initial : 'B', terminal : 'D' });
 		var bfs2 = new BFS({graph : gr, initial : 'C', terminal : 'B' });
@@ -53,21 +56,25 @@ describe('unit test of search.js.', function(){
 		result2.reachable.should.equal(false);
 	});
 
-	q = 'wfs searching history test.';
+	q = 'wfs searching history(result.paths) test.';
 	it(q, function() {
 		var bfs = new BFS({graph : gr, initial : 'C', terminal : 'D'});
 		var result = bfs.search();
-		result.path['D'].toString().should.equal(['C','E','G','H','I','D'].toString());
+		var expected = ['C','E','G','H','I','D'];
+		var actual = result.paths['D'];
+		tester.whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
+		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
 
 	q = 'collision detecting';
 	it(q, function(){
 		var bfs = new BFS({graph : gr, initial : 'A' , terminal : 'F'});
 		var result = bfs.search();
-		result.collisions[0].toString().should.equal([['A','B','C'],['A','C']].toString());
+		var expected = [['A','B','C'],['A','C']];
+		var actual = result.collisions[0];
+		tester.whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
+		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
-
-
 });
 
 

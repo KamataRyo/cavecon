@@ -1,10 +1,9 @@
 var should = require('should');
 var cvMath = require('../js/cvMath.js');
 var __ = require('underscore');
-
 var q = '';
-var digitToCheck = 4;// num of digit to check value approximately
 
+var digitToCheck = 4;// num of digit to check value approximately
 var getDiff = function(expected, actual){
 	var digit = Math.pow(10, digitToCheck);
 	var result = Math.round((expected - actual) * digit) / digit;
