@@ -1,7 +1,7 @@
 var Graph = require('../js/graph.js').Graph;
 var BFS = require('../js/search.js').BFS;
 var __ = require('underscore');
-
+var cvMath = require('../js/cvMath.js');
 
 exports.Cave = function(graph,entry){
 	this.graph = graph;
@@ -54,37 +54,90 @@ exports.Cave = function(graph,entry){
 		__.each(old_graph.structure.vertices, function(value, key){
 			exceptions[key] = false;
 		});
-		// var vertices = Object.keys(old_graph.structure.vertices);
-		// var vertex;
-		// for (var i = 0 ; i < vertices.length ; i++) {
-		// 	vertex = vertices[i];
-		// 	exceptions[vertex] = false;
-		// };
 
-		// if (search_result.collisions.length === 0) {
-		// 	return new_graph;
-		// };
-		// var path1, path2;
-		// var weight1, weight2;
-		// var n1, n2;
 
-		// while (result.collsisions.length > 0) {
+		if (search_result.collisions.length === 0) {
+		 	return new_graph;
+		};
 
-		// 	path1 = result.collisions[0][0];
-		// 	path2 = result.collisions[0][1];
-		// 	n1 = path1.length;
-		// 	n2 = path2.length;
-		// 	for (var i = 1 ; i < n1 - 1 ; i++) {
-			 	
-		// 	 };
 
-		// 	// newSpideredGraph = 
-		// 	//bfs = new BFS({
-		// 	// 	graph : newSpideredGraph,
-		// 	// 	initial : this.entry
-		// 	//});
+		var path1 = search_result.collisions[0][0];
+		var path2 = search_result.collisions[0][1];
+		var n1, n2;
+		n1 = path1.length;
+		n2 = path2.length;
+		var from, to, edgename, edge, weightInd;
 
-		// };
+		var weightSum = {r:0, dir:0, til:0};
+		var base;
+		var edgelengths = {};
+		
+
+		if (path1[0] !== path2[0]) {
+			from = path1[0];
+			to = path2[0];
+			edgename = old_graph.getEdges(from, to)[0];
+			edge = old_graph.edges[edgename];
+			base = cvMath.polarAdd(edge.weight,edge.residuals);
+			edgelengths[edgename] = 0;
+		} else {
+			base = {r:0, dir:0, til:0};
+		};
+
+		//sum weight and residuals inside cave loop
+		for (var i = 0 ; i < n1 - 1 ; i++) {
+				from = path1[i];
+				to = path1[i + 1];
+				edgename = old_graph.getEdges(from, to)[0];
+				edge = old_graph.edges[edgename];
+				weightInd = cvMath.polarAdd(edge.weight, edge.residuals);
+			 	weightSum = cvMath.polarAdd(weightSum, weightInd);
+			 	edgelengths[edgename] = weightInd.r;
+		};
+		for (var i = 0 ; i < n2 - 1 ; i++) {
+				from = path2[i];
+				to = path1[i + 1];
+				edgename = old_graph.getEdges(from, to)[0];
+				edge = old_graph.edges[edgename];
+				weightInd = cvMath.polarAdd(edge.weight, edge.residuals);
+			 	weightSum = cvMath.polarAdd(weightSum, weightInd);
+			 	edgelengths[edgename] = weightInd.r;
+		};
+
+		//edgelengthsに基づき、weightを分配する
+		lengthsSum = 0;
+		__.each(edgelengths,function(value, key){
+			lengthsSum += value;
+		});
+
+		var lengthsSum;
+		var lengthsRate;
+		var residuals;
+		__.each(edgelengths,function(value, key){
+			lengthsRate = value / lengthsSum;
+			residuals = old_graph.edges[key].residuals;
+			resuduals = cvMath.polarAdd(
+				residuals,
+				cvMath.polarMult(weightSum, lengthsRate)	
+			);
+		});
+
+
+		for (var i = 0 ; i < n1 - 1 ; i++) {
+				from = path1[i];
+				to = path1[i + 1];
+				edgename = old_graph.getEdges(from, to)[0];
+				delete new_graph.edges[edgename];
+				//ここにadd
+		};
+		for (var i = 0 ; i < n2 - 1 ; i++) {
+				from = path2[i];
+				to = path1[i + 1];
+				edgename = old_graph.getEdges(from, to)[0];
+				delete new_graph.edges[edgename];
+				//ここにadd
+		};
+		
 
 		return new_graph;
 	};

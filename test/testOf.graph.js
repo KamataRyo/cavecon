@@ -31,8 +31,6 @@ describe('unit test of graph.js.',function(){
 		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});
 
-
-
 	q = 'test of Method outboundEdges';
 	it(q, function(){
 		var expected = ['A->B'];

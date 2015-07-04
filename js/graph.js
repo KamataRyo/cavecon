@@ -31,6 +31,7 @@ exports.Graph =function(structure){
 		return result;
 	};
 
+	
 	this.outboundEdges = function(vertex){
 		var result = [];
 		__.each(this.edges, function(edge, key){
