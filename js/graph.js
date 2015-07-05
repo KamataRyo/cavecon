@@ -51,7 +51,39 @@ exports.Graph =function(structure){
 				result.push(edge.to);
 			};
 		});
-
 		return result;
 	};
+
+
+
+	this.addVertex = function(value){
+		if (__.contains(
+			__.keys(this.vertices),
+			value)
+		) {
+			throw new Error('Vertex name duplication error');
+		};
+		this.vertices[value] = {};
+	};
+
+	this.addEdge = function(from, to, key){
+		if (__.contains(
+			__.keys(this.edges),
+			key)
+		) {
+			throw new Error('Edge name duplication error');
+		};
+
+		if (!__.contains(
+			 __.keys(this.vertices),
+			 from) ||
+			!__.contains(
+			__.keys(this.vertices),
+			to)
+		) {
+			throw new Error('Vertex name notfound error');
+		};
+
+		this.edges[key] = {from : from, to : to};
+	}
 };
