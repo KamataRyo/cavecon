@@ -72,7 +72,6 @@ describe('unit test of search.js.', function(){
 		var result = bfs.search();
 		var expected = [['A','B','C'],['A','C']];
 		var actual = result.collisions[0];
-		console.log(result);
 		tester.whetherTheyHaveSameContent(expected, actual).should.be.exactly(true);
 		tester.whetherTheyAreSameObjects(expected, actual).should.be.exactly(false);
 	});

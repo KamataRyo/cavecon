@@ -104,40 +104,62 @@ exports.Cave = function(graph,entry){
 			 	edgelengths[edgename] = weightInd.r;
 		};
 
-		//edgelengthsに基づき、weightを分配する
-		lengthsSum = 0;
-		__.each(edgelengths,function(value, key){
-			lengthsSum += value;
-		});
-
+		//split weight base on edgelengths(propotional)
 		var lengthsSum;
 		var lengthsRate;
 		var residuals;
+		lengthsSum = 0;
 		__.each(edgelengths,function(value, key){
-			lengthsRate = value / lengthsSum;
-			residuals = old_graph.edges[key].residuals;
-			resuduals = cvMath.polarAdd(
-				residuals,
-				cvMath.polarMult(weightSum, lengthsRate)	
-			);
+			if (!exceptions[key]) {
+				lengthsSum += value;
+			};
+		});
+		__.each(edgelengths,function(value, key){
+			if (!exceptions[key]) {
+				lengthsRate = value / lengthsSum;
+				residuals = old_graph.edges[key].residuals;
+				resuduals = cvMath.polarAdd(
+					residuals,
+					cvMath.polarMult(weightSum, lengthsRate)	
+				);
+				exceptions[key] = true;	
+			};
 		});
 
-
+		weightSum = {r:0, dir:0, til:0};
 		for (var i = 0 ; i < n1 - 1 ; i++) {
+				for (var j = 0 ; j< i + 1 ; j++) {
+					edgename = old_graph.getEdges(path1[j],path1[j + 1]);
+					edge = old_graph.edges[edgename];
+					weightInd = cvMath.polarAdd(edge.weight, edge.residuals);
+					weightSum = cvMath.polarAdd(weightSum, weightInd);
+				};
 				from = path1[i];
 				to = path1[i + 1];
 				edgename = old_graph.getEdges(from, to)[0];
 				delete new_graph.edges[edgename];
-				//ここにadd
+				new_graph.addEdge(path1[0],path1[i],edgename);
+				new_graph.edges[edgename].weight = weightSum;
 		};
-		for (var i = 0 ; i < n2 - 1 ; i++) {
+		//case of (i === n2 -1) duplicates above 
+		for (var i = 0 ; i < n2 - 2 ; i++) {
+				for (var j = 0 ; j< i + 1 ; j++) {
+					edgename = old_graph.getEdges(path2[j],path2[j + 1]);
+					edge = old_graph.edges[edgename];
+					weightInd = cvMath.polarAdd(edge.weight, edge.residuals);
+					weightSum = cvMath.polarAdd(weightSum, weightInd);
+				};
 				from = path2[i];
-				to = path1[i + 1];
+				to = path2[i + 1];
 				edgename = old_graph.getEdges(from, to)[0];
 				delete new_graph.edges[edgename];
-				//ここにadd
+				new_graph.addEdge(path2[0],path2[i],edgename);
+				new_graph.edges[edgename].weight = weightSum;
 		};
-		
+		console.log('new:');
+		console.log(JSON.stringify(old_graph));
+		console.log('old:');
+		console.log(JSON.stringify(new_graph));
 
 		return new_graph;
 	};
